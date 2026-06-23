@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.3'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.rrs'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://maven.aliyun.com/repository/spring' }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.hibernate.orm:hibernate-community-dialects'
+    implementation 'org.xerial:sqlite-jdbc:3.45.3.0'
+
+    // Apache POI for Excel parsing and conversion
+    implementation 'org.apache.poi:poi:5.2.5'
+    implementation 'org.apache.poi:poi-ooxml:5.2.5'
+
+    // OkHttp for HTTP calls to LLM APIs
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+
+    // Jackson JSON (included in spring-boot-starter-web, explicit for clarity)
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    // .env file support
+    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

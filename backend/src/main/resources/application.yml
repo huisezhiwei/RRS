@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:${DB_PATH:../data-file/rrs.db}
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+server:
+  port: ${BACKEND_PORT:8080}
+
+rrs:
+  upload-dir: ${UPLOAD_DIR:../data-file/uploads}
+
+logging:
+  file:
+    name: ../data-file/logs/rrs-backend.log
+  level:
+    root: INFO
+    com.rrs: DEBUG
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
