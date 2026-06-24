@@ -51,6 +51,9 @@ public class ChatService {
     @Transactional
     public void deleteSession(Long sessionId) {
         log.info("Deleting chat session: {}", sessionId);
+        if (!sessionRepository.existsById(sessionId)) {
+            throw new BusinessException(404, "Session not found");
+        }
         sessionRepository.deleteById(sessionId);
     }
 
@@ -87,6 +90,9 @@ public class ChatService {
 
     @Transactional
     public ChatMessageDTO saveAssistantMessage(Long sessionId, String content) {
+        if (!sessionRepository.existsById(sessionId)) {
+            throw new BusinessException(404, "Session not found");
+        }
         ChatMessage msg = new ChatMessage();
         msg.setSessionId(sessionId);
         msg.setRole(MessageRole.ASSISTANT);

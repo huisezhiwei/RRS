@@ -31,7 +31,11 @@ public class CredentialController {
         try {
             List<CredentialDTO> result;
             if (type != null && !type.isBlank()) {
-                result = credentialService.listByType(CredentialType.valueOf(type.toUpperCase()));
+                try {
+                    result = credentialService.listByType(CredentialType.valueOf(type.toUpperCase()));
+                } catch (IllegalArgumentException e) {
+                    throw new com.rrs.exception.BusinessException(400, "Invalid credential type: " + type);
+                }
             } else {
                 result = credentialService.listAll();
             }

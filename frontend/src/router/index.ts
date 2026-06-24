@@ -37,6 +37,30 @@ const routes = [
         component: () => import('@/views/ai/ChatView.vue'),
         meta: { title: 'AI 对话' },
       },
+      {
+        path: '/ocr',
+        name: 'OcrView',
+        component: () => import('@/views/ocr/OcrView.vue'),
+        meta: { title: 'OCR 图片解析' },
+      },
+      {
+        path: '/data-models',
+        name: 'DataModelList',
+        component: () => import('@/views/dataModel/DataModelList.vue'),
+        meta: { title: '数据模型' },
+      },
+      {
+        path: '/data-models/:id/init',
+        name: 'DataModelWizard',
+        component: () => import('@/views/dataModel/DataModelWizard.vue'),
+        meta: { title: '模型初始化' },
+      },
+      {
+        path: '/data-models/:id',
+        name: 'DataModelDetail',
+        component: () => import('@/views/dataModel/DataModelDetail.vue'),
+        meta: { title: '模型详情' },
+      },
     ],
   },
 ]

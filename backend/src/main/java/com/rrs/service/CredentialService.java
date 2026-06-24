@@ -75,6 +75,9 @@ public class CredentialService {
     @Transactional
     public void delete(Long id) {
         log.info("Deleting credential: id={}", id);
+        if (!credentialRepository.existsById(id)) {
+            throw new BusinessException(404, "Credential not found");
+        }
         credentialRepository.deleteById(id);
     }
 

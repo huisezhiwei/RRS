@@ -42,6 +42,20 @@ public class AiAgentService {
             aiAgentRepository.save(agent);
             log.info("Initialized built-in agent: chat_assistant");
         }
+
+        if (aiAgentRepository.findByCode("ocr_assistant").isEmpty()) {
+            AiAgent ocrAgent = new AiAgent();
+            ocrAgent.setCode("ocr_assistant");
+            ocrAgent.setName("OCR 图片解析助手");
+            ocrAgent.setDescription("识别图片中的文字信息，支持本地 Tesseract OCR 和大模型 Vision API，结果可保存为 Markdown 文件。");
+            ocrAgent.setAgentType(AgentType.OCR_ASSISTANT);
+            ocrAgent.setSystemPrompt("你是一个专业的 OCR 文字识别助手。请仔细识别图片中的所有文字内容，以 Markdown 格式输出，保留原始排版结构。");
+            ocrAgent.setTemperature(0.1);
+            ocrAgent.setMaxTokens(4096);
+            ocrAgent.setTopP(1.0);
+            aiAgentRepository.save(ocrAgent);
+            log.info("Initialized built-in agent: ocr_assistant");
+        }
     }
 
     public List<AiAgentDTO> listAll() {

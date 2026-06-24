@@ -6,11 +6,13 @@ import com.rrs.entity.Material;
 import com.rrs.entity.MaterialLibrary;
 import com.rrs.entity.Tag;
 import com.rrs.exception.BusinessException;
+import com.rrs.event.MaterialUploadedEvent;
 import com.rrs.repository.MaterialLibraryRepository;
 import com.rrs.repository.MaterialRepository;
 import com.rrs.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +33,7 @@ public class MaterialService {
     private final MaterialLibraryRepository libraryRepository;
     private final TagRepository tagRepository;
     private final FileStorageService fileStorageService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public MaterialDTO upload(Long libraryId, MultipartFile file) {
@@ -56,6 +59,10 @@ public class MaterialService {
 
         material = materialRepository.save(material);
         log.info("素材记录已保存, id={}", material.getId());
+
+        // Publish event for auto-extraction
+        eventPublisher.publishEvent(new MaterialUploadedEvent(this, libraryId, material.getId()));
+
         return toDTO(material);
     }
 

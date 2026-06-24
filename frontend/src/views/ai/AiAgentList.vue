@@ -8,7 +8,8 @@
       <el-col :span="8" v-for="agent in agents" :key="agent.id">
         <el-card class="agent-card" shadow="hover" @click="openConfig(agent)">
           <div class="agent-icon">
-            <el-icon :size="48" color="#409eff"><ChatDotRound /></el-icon>
+            <el-icon v-if="agent.agentType === 'OCR_ASSISTANT'" :size="48" color="#67c23a"><PictureFilled /></el-icon>
+            <el-icon v-else :size="48" color="#409eff"><ChatDotRound /></el-icon>
           </div>
           <h3>{{ agent.name }}</h3>
           <p class="agent-desc">{{ agent.description || '暂无描述' }}</p>
@@ -18,8 +19,8 @@
             <span v-if="agent.modelName" class="model-name">{{ agent.modelName }}</span>
           </div>
           <div class="agent-actions">
-            <el-button type="primary" size="small" @click.stop="openChat(agent)" :disabled="!agent.credentialId">
-              对话
+            <el-button type="primary" size="small" @click.stop="openChat(agent)" :disabled="agent.agentType !== 'OCR_ASSISTANT' && !agent.credentialId">
+              {{ agent.agentType === 'OCR_ASSISTANT' ? '识别' : '对话' }}
             </el-button>
             <el-button size="small" @click.stop="openConfig(agent)">配置</el-button>
           </div>
@@ -124,7 +125,11 @@ function openConfig(agent: AiAgentDTO) {
 }
 
 function openChat(agent: AiAgentDTO) {
-  router.push(`/ai/chat/${agent.id}`)
+  if (agent.agentType === 'OCR_ASSISTANT') {
+    router.push({ path: '/ocr', query: { agentId: String(agent.id) } })
+  } else {
+    router.push(`/ai/chat/${agent.id}`)
+  }
 }
 
 async function onCredentialChange(credId: number) {

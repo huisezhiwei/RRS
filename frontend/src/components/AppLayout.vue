@@ -19,6 +19,10 @@
             <el-icon><ChatDotRound /></el-icon>
             AI 助手
           </el-menu-item>
+          <el-menu-item index="/data-models">
+            <el-icon><Grid /></el-icon>
+            数据模型
+          </el-menu-item>
         </el-menu>
       </div>
     </el-header>
@@ -39,6 +43,7 @@ const activeMenu = computed(() => {
   if (route.path.startsWith('/material')) return '/material/libraries'
   if (route.path.startsWith('/credentials')) return '/credentials'
   if (route.path.startsWith('/ai')) return '/ai/agents'
+  if (route.path.startsWith('/data-models')) return '/data-models'
   return route.path
 })
 </script>

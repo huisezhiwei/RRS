@@ -17,6 +17,8 @@ server:
 
 rrs:
   upload-dir: ${UPLOAD_DIR:../data-file/uploads}
+  tessdata-path: ${TESSDATA_PATH:}
+  ocr-default-lang: ${OCR_LANG:chi_sim+eng}
 
 logging:
   file:
